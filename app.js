@@ -29,7 +29,7 @@ var $ageDisplay = $("#age-display");
 var $commentDisplay= $("#comment-display");
 
 //when addUserInput is clicked we collect data from form and store in variables
-$addUserInput.on("click", function(){
+$addUserInput.on("click", function(event){
     //Don't refresh the page
     event.preventDefault();
     name = $nameInput.val().trim();
