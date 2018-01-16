@@ -39,14 +39,24 @@ $addUserInput.on("click", function(){
         name:name,
         email:email,
         age:age,
-        comment:comment
-    })
+        comment:comment,
+        dateAdded:firebase.database.ServerValue.TIMESTAMP
+    });
 });
 
+firebase.database().ref().on("child_added", function(snapshot){
+    $(".well").append("<p>Name: " + snapshot.val().name + "</p>");
+    $(".well").append("<p>Email: " + snapshot.val().email + "</p>");
+    $(".well").append("<p>Age: " + snapshot.val().age + "</p>");
+    $(".well").append("<p>Comment: " + snapshot.val().comment + "</p>");
+    $(".well").append("<hr>");
 
-firebase.database().ref().on("value", function(snapshot){
-    $nameDisplay.html(snapshot.val().name);
-    $emailDisplay.html(snapshot.val().email);
-    $ageDisplay.html(snapshot.val().age);
-    $commentDisplay.html(snapshot.val().comment);
+})
+
+
+firebase.database().ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot){
+    $nameDisplay.html("<h3>Name: "+ snapshot.val().name + "</h3>");
+    $emailDisplay.html("<h3>Email: "+ snapshot.val().email + "</h3>");
+    $ageDisplay.html("<h3>Age: "+ snapshot.val().age + "</h3>");
+    $commentDisplay.html("<h3>How did you hear?: "+ snapshot.val().comment + "</h3>");
 });
